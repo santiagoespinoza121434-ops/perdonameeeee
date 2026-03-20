@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Perdones para Key 💝</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #764ba2;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+        }
+
+        h1 span {
+            color: #ff6b6b;
+            font-size: 0.8em;
+            display: block;
+        }
+
+        .counter {
+            background: #f0f0f0;
+            border-radius: 50px;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .perdones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+            max-height: 400px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 10px;
+        }
+
+        .perdon-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            font-size: 0.9em;
+            color: #555;
+            border-left: 4px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .perdon-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-left-color: #ff6b6b;
+        }
+
+        .heart {
+            color: #ff6b6b;
+            font-size: 1.2em;
+        }
+
+        .buttons {
+            margin-top: 20px;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        button:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        button.reset {
+            background: #ff6b6b;
+        }
+
+        button.reset:hover {
+            background: #ff5252;
+        }
+
+        .message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            background: #e8f5e9;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .footer {
+            margin-top: 20px;
+            color: rgba(255,255,255,0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            Lo siento Key 💝
+            <span>100 formas de pedir perdón</span>
+        </h1>
+
+        <div class="counter">
+            Perdones enviados: <span id="contador">0</span>/100
+            <div class="heart">❤️</div>
+        </div>
+
+        <div class="perdones-grid" id="perdonesGrid">
+            <!-- Los perdones se generarán aquí con JavaScript -->
+        </div>
+
+        <div class="buttons">
+            <button onclick="enviarPerdon()">Enviar Perdón</button>
+            <button class="reset" onclick="resetearPerdones()">Reiniciar</button>
+        </div>
+
+        <div class="message" id="mensajeFinal">
+            🎉 ¡100 perdones enviados! ¿Me perdonas Key? 🎉
+        </div>
+    </div>
+
+    <div class="footer">
+        Hecho con ❤️ para Key
+    </div>
+
+    <script>
+        // Array con diferentes formas de pedir perdón
+        const mensajesPerdon = [
+            "Lo siento mucho Key",
+            "Perdóname por favor",
+            "Fui un tonto Key",
+            "Te prometo que cambiaré",
+            "No volverá a pasar",
+            "Eres especial para mí",
+            "Perdón por mi error",
+            "Te valoro mucho Key",
+            "Cometí un error",
+            "Acepto mi culpa",
+            "Quiero mejorar por ti",
+            "Dame otra oportunidad",
+            "Lo lamento de corazón",
+            "No quiero perderte",
+            "Eres importante para mí",
+            "Me equivoqué Key",
+            "Perdón por lastimarte",
+            "Aprendí la lección",
+            "Seré mejor persona",
+            "Te necesito Key",
+            "Mi error fue grande",
+            "Pero mi amor es mayor",
+            "Perdóname esta vez",
+            "No sabes cuánto lo siento",
+            "Me arrepiento Key",
+            "Quiero enmendarlo",
+            "Déjame demostrártelo",
+            "Confía en mí otra vez",
+            "Te quiero Key",
+            "Eres mi debilidad",
+            "Sin ti no soy nada",
+            "Perdón por hacerte daño",
+            "Merezco tu perdón",
+            "Lucharé por ti",
+            "Key, perdóname",
+            "No fue mi intención",
+            "Te respeto mucho",
+            "Valoro nuestra amistad",
+            "Eres única Key",
+            "Mi corazón es tuyo",
+            "Perdón por fallarte",
+            "Quiero ser mejor",
+            "Te admiro Key",
+            "Nunca fue mi plan",
+            "Duele perderte",
+            "Por favor, perdón",
+            "Key, una oportunidad",
+            "Cambiaré por ti",
+            "Te mereces más",
+            "Lo haré bien ahora",
+            "No más errores",
+            "Te lo prometo Key",
+            "Mi amor por ti",
+            "Es más fuerte",
+            "Que mi orgullo",
+            "Perdóname Key",
+            "Dame la mano",
+            "Quiero empezar de nuevo",
+            "Borremos el pasado",
+            "Miremos al futuro",
+            "Juntos Key",
+            "Podemos ser felices",
+            "Perdón por todo",
+            "Te extraño mucho",
+            "No sabes cuánto",
+            "Key, lo siento",
+            "Mi mayor error",
+            "Fue alejarme",
+            "Pero aquí estoy",
+            "Para pedir perdón",
+            "Con humildad",
+            "Y con amor",
+            "Key, perdón",
+            "Cien veces perdón",
+            "Y las que hagan falta",
+            "Porque tú vales",
+            "Más que mil perdones",
+            "Key hermosa",
+            "Perdóname",
+            "Ya aprendí",
+            "Ya entendí",
+            "Que sin ti",
+            "No soy nada",
+            "Por favor",
+            "Te lo ruego",
+            "Perdón Key",
+            "Una vez más",
+            "Y siempre",
+            "Si es por ti",
+            "Pediré perdón",
+            "Cada día",
+            "Cada hora",
+            "Cada minuto",
+            "Hasta que entiendas",
+            "Que lo siento",
+            "De verdad Key",
+            "De corazón",
+            "Por siempre",
+            "Para siempre",
+            "Key, perdón",
+            "❤️"
+        ];
+
+        let perdonesEnviados = 0;
+        const gridElement = document.getElementById('perdonesGrid');
+        const contadorElement = document.getElementById('contador');
+        const mensajeFinalElement = document.getElementById('mensajeFinal');
+
+        // Función para generar un perdon aleatorio
+        function generarPerdon() {
+            const index = perdonesEnviados % mensajesPerdon.length;
+            return mensajesPerdon[index];
+        }
+
+        // Función para actualizar la visualización de los perdones
+        function actualizarGrid() {
+            gridElement.innerHTML = '';
+            for (let i = 0; i < perdonesEnviados; i++) {
+                const perdonDiv = document.createElement('div');
+                perdonDiv.className = 'perdon-item';
+                perdonDiv.textContent = ${i + 1}. ${mensajesPerdon[i % mensajesPerdon.length]};
+                gridElement.appendChild(perdonDiv);
+            }
+            contadorElement.textContent = perdonesEnviados;
+            
+            // Mostrar mensaje cuando llega a 100
+            if (perdonesEnviados >= 100) {
+                mensajeFinalElement.classList.add('show');
+            } else {
+                mensajeFinalElement.classList.remove('show');
+            }
+
+            // Hacer scroll al último elemento
+            if (perdonesEnviados > 0) {
+                const ultimoElemento = gridElement.lastElementChild;
+                if (ultimoElemento) {
+                    ultimoElemento.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }
+        }
+
+        // Función para enviar un perdón
+        function enviarPerdon() {
+            if (perdonesEnviados < 100) {
+                perdonesEnviados++;
+                actualizarGrid();
+            } else {
+                alert('¡Ya enviaste 100 perdones! Esperemos que Key te haya perdonado ❤️');
+            }
+        }
+
+        // Función para reiniciar
+        function resetearPerdones() {
+            if (confirm('¿Seguro que quieres reiniciar los perdones?')) {
+                perdonesEnviados = 0;
+                actualizarGrid();
+            }
+        }
+
+        // Inicializar con algunos perdones para mostrar (opcional)
+        // Puedes quitar esto si quieres que empiece desde 0
+        for (let i = 0; i < 10; i++) {
+            perdonesEnviados++;
+        }
+        actualizarGrid();
+    </script>
+</body>
+</html>
